@@ -1,0 +1,72 @@
+<form [formGroup]="form" (ngSubmit)="guardar()" class="card p-4 shadow-sm">
+  <h4 class="mb-3 text-primary">Formulario Matrícula</h4>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Estudiante</label>
+      <select class="form-select" formControlName="estudiante">
+        <option value="">Seleccione</option>
+        <option *ngFor="let e of estudiantes" [value]="e._id">
+          {{ e.nombre }} {{ e.apellido }}
+        </option>
+      </select>
+      <div *ngIf="form.get('estudiante')?.errors && form.get('estudiante')?.touched">
+        <p class="text-danger" *ngIf="form.get('estudiante')?.hasError('required')">
+          Seleccione un estudiante valido
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Curso</label>
+      <select class="form-select" formControlName="curso">
+        <option value="">Seleccione</option>
+        <option *ngFor="let c of cursos" [value]="c._id">{{ c.codigo }} - {{ c.nombre }}</option>
+      </select>
+      <div *ngIf="form.get('curso')?.errors && form.get('curso')?.touched">
+        <p class="text-danger" *ngIf="form.get('curso')?.hasError('required')">
+          Seleccione un curso valido
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex gap-2 mt-3">
+    <button class="btn btn-primary" type="submit">
+      {{ editId ? 'Actualizar' : 'Matricular' }}
+    </button>
+
+    <button class="btn btn-secondary" type="button" (click)="reset()" *ngIf="editId">
+      Cancelar
+    </button>
+  </div>
+</form>
+
+<hr class="my-4" />
+
+<h4 class="text-primary">Listado de Matrículas</h4>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered align-middle mt-3">
+    <thead class="table-dark">
+      <tr>
+        <th>Estudiante</th>
+        <th>Curso</th>
+        <th>Fecha</th>
+        <th class="text-center">Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let m of matriculas">
+        <td>{{ m.estudiante?.nombre }} {{ m.estudiante?.apellido }}</td>
+        <td>{{ m.curso?.nombre }}</td>
+        <td>{{ m.fecha | date : 'short' }}</td>
+        <td class="text-center">
+          <button class="btn btn-sm btn-warning me-2" (click)="editar(m)">Editar</button>
+          <button class="btn btn-sm btn-danger" (click)="eliminar(m._id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
