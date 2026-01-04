@@ -1,0 +1,23 @@
+<div class="app-container">
+  <aside class="sidebar">
+    <h4 class="logo">Académico</h4>
+
+    <button class="menu-btn" [class.active]="vista === 'estudiante'" (click)="vista = 'estudiante'">
+      🎓 Estudiantes
+    </button>
+
+    <button class="menu-btn" [class.active]="vista === 'curso'" (click)="vista = 'curso'">
+      📚 Cursos
+    </button>
+
+    <button class="menu-btn" [class.active]="vista === 'matricula'" (click)="vista = 'matricula'">
+      📝 Matrículas
+    </button>
+  </aside>
+
+  <main class="content">
+    <app-form-estudiante *ngIf="vista === 'estudiante'"></app-form-estudiante>
+    <app-form-curso *ngIf="vista === 'curso'"></app-form-curso>
+    <app-form-asignatura *ngIf="vista === 'matricula'"></app-form-asignatura>
+  </main>
+</div>
